@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Setting {
+  key   String @id
+  value String
+}
+
+model HiddenCard {
+  trelloCardId String   @id
+  hiddenAt     DateTime @default(now())
+}
+
+model TrelloCardOverride {
+  trelloCardId String   @id
+  aiScore      Int?
+  notes        String?
+  aiResponse   String?
+  updatedAt    DateTime @updatedAt
+}
+
+model CallRecord {
+  id            String   @id @default(cuid())
+  threecxCallId String   @unique
+  callerPhone   String
+  callerName    String?
+  callee        String?
+  callDate      DateTime
+  duration      String?
+  direction     String?
+  status        String?
+  recordingUrl  String?
+  transcript    String?
+  aiResponse    String?
+  reviewed      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

@@ -1,0 +1,5 @@
+-- CreateTable
+CREATE TABLE "HiddenCard" (
+    "trelloCardId" TEXT NOT NULL PRIMARY KEY,
+    "hiddenAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

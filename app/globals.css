@@ -10,6 +10,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* RNRPC brand color */
+  --color-brand: #595ee0;
+  --color-brand-hover: #4a4fcb;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +27,61 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hide all scrollbars — scroll still works */
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Minimal aesthetic scrollbar — apply with class="scrollbar-thin" */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b #1e293b;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  display: block !important;
+  width: 5px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #64748b;
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Toast slide-down */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.toast-in {
+  animation: toast-in 0.2s ease-out forwards;
+}
+
+
+/* ── Light mode variant — use light:* utility classes in components ── */
+@custom-variant light (&:where(html.light, html.light *));
+
+/* ── Light mode: flip the slate palette via Tailwind v4 CSS variables ── */
+/* Every bg-slate-*, text-slate-*, border-slate-* class adapts automatically. */
+html.light {
+  --color-slate-950: #f8fafc;
+  --color-slate-900: #f1f5f9;
+  --color-slate-800: #e2e8f0;
+  --color-slate-700: #cbd5e1;
+  --color-slate-600: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-400: #475569;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+  --color-slate-100: #0f172a;
+  --color-slate-50:  #020617;
 }
