@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
       src.toLowerCase().includes(".heif");
 
     if (isHeic) {
-      const jpeg = await convert({ buffer: buffer, format: "JPEG", quality: 0.9 });
+      const jpeg = await convert({ buffer: buffer as unknown as ArrayBuffer, format: "JPEG", quality: 0.9 });
       return new NextResponse(new Uint8Array(jpeg), {
         headers: {
           "Content-Type": "image/jpeg",
