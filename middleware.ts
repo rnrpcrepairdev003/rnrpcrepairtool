@@ -3,10 +3,10 @@ import { isValidSession } from "@/lib/auth";
 
 const PUBLIC_PATHS = ["/login", "/api/login"];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const cookieHeader = request.headers.get("cookie");
-  const authenticated = isValidSession(cookieHeader);
+  const authenticated = await isValidSession(cookieHeader);
 
   const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
 

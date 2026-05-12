@@ -712,7 +712,7 @@ function buildPrompt(card: ScoredCard, comments: TrelloComment[]): string {
         return `[${date} – ${c.memberCreator.fullName}]: ${c.data.text}`;
       }).join("\n");
 
-  return `You are helping RNRPC Repair, a PC repair shop in Palm Desert, CA manage their repair queue.
+  return `You are helping RNRPC Repair, a PC repair shop in Palm Desert, CA manage their repair queue. Customers are mixed age and demographic — do not assume tech literacy. Card names follow this pattern: [Customer Name] – [Device & Issue] [Phone Number]. The description is an AI-generated summary of a customer phone call intake — not the customer's exact words. Technician comments contain repair progress updates and logs of customer communication (calls made, approvals given, follow-ups attempted).
 
 JOB: "${card.name}"
 TRELLO: ${card.shortUrl}
@@ -727,7 +727,7 @@ ${commentsBlock}
 The photos of the device are attached separately in the next message.
 
 ---
-Wrap your **entire response** in a single markdown code block (triple backticks) so it can be copied in one click. Use the exact section headings below inside the code block.
+Wrap your **entire response** in a single markdown code block (triple backticks) so it can be copied in one click. Use the exact section headings below inside the code block. Do not include citation markers, reference annotations, or footnotes of any kind (e.g. :contentReference, [oaicite], etc.) anywhere in your response.
 
 ## 1. SCORE
 State the number (1–100) and tier on one line.
@@ -737,9 +737,9 @@ Tier thresholds: 67–100 = HIGH · 34–66 = MEDIUM · 1–33 = LOW
 Score using these factors in order of importance:
 
 **A. SERVICE TYPE & COMPLEXITY** (most important)
-- Data recovery, motherboard repair, liquid damage → high base score (complex, high risk of loss)
-- Screen replacement, charging port, RAM/storage upgrade → medium base score
-- OS reinstall, software issue, basic diagnostics, password reset → low base score
+- Data recovery, motherboard repair, liquid damage → 75–90 (complex, high risk of loss)
+- Screen replacement, charging port, RAM/storage upgrade → 45–65
+- OS reinstall, software issue, basic diagnostics, password reset → 15–35
 
 **B. PRIORITY FEE PAID**
 - Customer paid a priority or rush service fee → significant score boost
@@ -754,27 +754,38 @@ Score using these factors in order of importance:
 - A 90-day OS reinstall is still less urgent than a 7-day data recovery
 
 **E. CUSTOMER URGENCY SIGNALS**
-- Repeated contact, frustration, hard deadlines, business-critical device → score higher
-- No contact, patient customer → neutral
+- Customers do not comment on Trello directly — look for urgency in the description (words like urgent, ASAP, need for work, need for school, hard deadline) and in technician comments (customer called repeatedly, expressed frustration, mentioned a deadline, approved a quote)
+- Business-critical device (work laptop, POS system) → score higher
+- No urgency signals found → neutral
 
 **F. REPAIR PROGRESS & ACTIONABILITY**
 - Actively in progress, no blockers → score higher
-- Parts ordered / waiting to arrive → score significantly lower (shop cannot act yet)
-- Waiting for customer approval or go-signal → score significantly lower (cannot proceed without response)
+- Parts ordered / waiting to arrive → reduce score by 15–20 points, but never below the floor of the service type (e.g. a data recovery waiting on parts stays above 55, not below)
+- Waiting for customer approval or go-signal → reduce score by 10–15 points (cannot proceed without response)
 - Customer stopped responding for weeks → flag as possible abandonment, score lower
 
 ## 2. STATUS SUMMARY
 Write 3–5 sentences covering the current state of this repair. Include:
 - What the repair is and how complex it is
 - How long the device has been in the shop and whether progress is being made
+- What the technician comments reveal about repair progress and customer communication
 - Any red flags: customer stopped responding, waiting on parts, unpaid deposit, device possibly abandoned, stalled repair
 
 ## 3. REPORT NOTE
-Write 1–2 lines only. This is a plain-language summary of why this job is ranked where it is — written for a technician reading a quick chat report. No technical jargon, no bullet points, just a clear sentence or two.
+Write exactly 2 lines. Line 1: why this job is ranked where it is. Line 2: start with "→ " then state the single most important action the technician must take today — be specific and direct (e.g. "→ Call customer to approve $180 screen replacement before ordering part.", "→ No response in 14 days — follow up or consider closing the ticket.", "→ Part arrived — begin repair today."). Written for a technician reading a quick morning report. No jargon, no bullet points.
 
-## 4. PARTS NEEDED
+## 4. CUSTOMER MESSAGE
+Write a short, professional text message the technician can copy and send directly to the customer. Address them by first name (extracted from the card name). 2–3 sentences max. Match the message to the current repair status:
+- Device ready for pickup → notify them and include shop name
+- Waiting for customer approval → politely ask for a decision
+- Parts ordered / repair in progress → give a brief status update and set expectations
+- No response / possible abandonment → politely follow up and ask if they still want the repair
+
+Sign off as "– RNRPC Repair". Do not invent phone numbers, prices, or dates not present in the card data.
+
+## 5. PARTS NEEDED
 List every part identifiable from the description and comments:
-- [Part name & specification] — [Best store for Palm Desert CA 92260] — [Direct product URL]
+- [Part name & full specification] — [Compatibility notes] — [Search term to find it on Amazon/iFixit/eBay]
 
 If no parts are identifiable, write: None identified.`;
 }

@@ -10,6 +10,6 @@ export async function POST(request: NextRequest) {
   }
 
   const response = NextResponse.redirect(new URL("/", request.url));
-  response.headers.set("Set-Cookie", makeSessionCookie());
+  response.headers.set("Set-Cookie", await makeSessionCookie());
   return response;
 }
