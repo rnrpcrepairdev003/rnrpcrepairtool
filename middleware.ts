@@ -23,9 +23,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const res = NextResponse.next();
-  if (!isPublic) {
-    res.headers.set("Cache-Control", "no-store");
-  }
+  res.headers.set("Cache-Control", "no-store");
   return res;
 }
 
