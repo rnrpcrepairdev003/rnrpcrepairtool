@@ -33,7 +33,7 @@ export function Topbar({ total, high, medium, low, pending, reviewed, lastUpdate
 
       {/* Stats — centered */}
       <div className="flex-1 flex items-center justify-center gap-1 text-xs">
-        {label ? (
+        {label === "Settings" ? null : label ? (
           <>
             <Stat label={`${total} calls`} color="text-slate-300" />
             <Divider />
