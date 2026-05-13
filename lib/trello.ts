@@ -79,8 +79,7 @@ export async function getBoardLists(boardId: string): Promise<TrelloList[]> {
 
 export async function getListCards(listId: string): Promise<TrelloCard[]> {
   const res = await trelloFetch(`/lists/${listId}/cards`, {}, {
-    fields: "name,desc,shortUrl,idLabels,dateLastActivity,due",
-    labels: "all",
+    fields: "name,desc,shortUrl,labels,dateLastActivity,due",
   });
   return res.json();
 }

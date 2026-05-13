@@ -712,11 +712,12 @@ function buildPrompt(card: ScoredCard, comments: TrelloComment[]): string {
         return `[${date} – ${c.memberCreator.fullName}]: ${c.data.text}`;
       }).join("\n");
 
-  return `You are helping RNRPC Repair, a PC repair shop in Palm Desert, CA manage their repair queue. Customers are mixed age and demographic — do not assume tech literacy. Card names follow this pattern: [Customer Name] – [Device & Issue] [Phone Number]. The description is an AI-generated summary of a customer phone call intake — not the customer's exact words. Technician comments contain repair progress updates and logs of customer communication (calls made, approvals given, follow-ups attempted).
+  return `You are helping RNRPC Repair, a PC repair shop in Palm Desert, CA manage their repair queue. Customers are mixed age and demographic — do not assume tech literacy. Card names typically follow this pattern: [Customer Name] – [Device & Issue] [Phone Number], but some cards only contain the customer name and phone number without a device or issue specified — in that case, rely on the description for service details. The description is an AI-generated summary of a customer phone call intake — not the customer's exact words. Technician comments contain repair progress updates and logs of customer communication (calls made, approvals given, follow-ups attempted).
 
 JOB: "${card.name}"
 TRELLO: ${card.shortUrl}
 DROPPED OFF: ${droppedOff} — ${daysInShop} day${daysInShop !== 1 ? "s" : ""} ago
+LABELS: ${card.labels?.length > 0 ? card.labels.map((l) => l.name).join(", ") : "None"}
 
 DESCRIPTION:
 ${descBlock}
@@ -774,8 +775,8 @@ Write 3–5 sentences covering the current state of this repair. Include:
 ## 3. REPORT NOTE
 Write exactly 2 lines. Line 1: why this job is ranked where it is. Line 2: start with "→ " then state the single most important action the technician must take today — be specific and direct (e.g. "→ Call customer to approve $180 screen replacement before ordering part.", "→ No response in 14 days — follow up or consider closing the ticket.", "→ Part arrived — begin repair today."). Written for a technician reading a quick morning report. No jargon, no bullet points.
 
-## 4. PARTS NEEDED
-List every part identifiable from the description and comments:
+## 4. PARTS IDENTIFIED
+List every part identifiable from the description, comments, and photos:
 - [Part name & full specification] — [Compatibility notes] — [Search term to find it on Amazon/iFixit/eBay]
 
 If no parts are identifiable, write: None identified.`;
