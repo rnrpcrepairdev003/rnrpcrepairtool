@@ -93,36 +93,36 @@ export function QueuePanel({ cards }: QueuePanelProps) {
       </div>
 
       {/* List */}
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-col flex-1 overflow-y-auto" style={{ scrollbarWidth: "none" }}>
         {cards.map((card, i) => {
           const tier = card.tier;
           const isReviewed = card.override !== null;
           return (
             <div
               key={card.id}
-              className="flex items-center gap-0 border-b border-slate-800/60 last:border-0 hover:bg-slate-800/40 transition-colors flex-1"
+              className="flex items-center gap-0 border-b border-slate-800/60 last:border-0 hover:bg-slate-800/40 transition-colors shrink-0"
             >
               {/* Tier accent */}
               <div className={`w-[2px] self-stretch shrink-0 ${tierBar[tier]}`} />
 
-              <div className="flex items-center gap-2.5 flex-1 min-w-0 px-3">
+              <div className="flex items-center gap-2.5 flex-1 min-w-0 px-3 py-2">
                 {/* Rank */}
-                <span className="text-slate-700 text-[10px] font-mono w-4 text-right shrink-0 select-none">
+                <span className="text-slate-600 text-xs font-mono w-5 text-right shrink-0 select-none">
                   {i + 1}
                 </span>
 
                 {/* Reviewed check */}
-                <span className={`shrink-0 text-[10px] leading-none ${isReviewed ? "text-brand" : "text-slate-800"}`}>
+                <span className={`shrink-0 text-xs leading-none ${isReviewed ? "text-brand" : "text-slate-800"}`}>
                   ✓
                 </span>
 
                 {/* Name */}
-                <span className="text-slate-400 text-[11px] truncate flex-1 leading-tight">
+                <span className="text-slate-300 text-sm truncate flex-1">
                   {card.name}
                 </span>
 
                 {/* Score */}
-                <span className={`text-[10px] font-mono font-semibold shrink-0 ${tierScore[tier]}`}>
+                <span className={`text-xs font-mono font-semibold shrink-0 ${tierScore[tier]}`}>
                   {card.score}
                 </span>
               </div>
