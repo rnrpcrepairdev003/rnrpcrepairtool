@@ -774,16 +774,7 @@ Write 3–5 sentences covering the current state of this repair. Include:
 ## 3. REPORT NOTE
 Write exactly 2 lines. Line 1: why this job is ranked where it is. Line 2: start with "→ " then state the single most important action the technician must take today — be specific and direct (e.g. "→ Call customer to approve $180 screen replacement before ordering part.", "→ No response in 14 days — follow up or consider closing the ticket.", "→ Part arrived — begin repair today."). Written for a technician reading a quick morning report. No jargon, no bullet points.
 
-## 4. CUSTOMER MESSAGE
-Write a short, professional text message the technician can copy and send directly to the customer. Address them by first name (extracted from the card name). 2–3 sentences max. Match the message to the current repair status:
-- Device ready for pickup → notify them and include shop name
-- Waiting for customer approval → politely ask for a decision
-- Parts ordered / repair in progress → give a brief status update and set expectations
-- No response / possible abandonment → politely follow up and ask if they still want the repair
-
-Sign off as "– RNRPC Repair". Do not invent phone numbers, prices, or dates not present in the card data.
-
-## 5. PARTS NEEDED
+## 4. PARTS NEEDED
 List every part identifiable from the description and comments:
 - [Part name & full specification] — [Compatibility notes] — [Search term to find it on Amazon/iFixit/eBay]
 
