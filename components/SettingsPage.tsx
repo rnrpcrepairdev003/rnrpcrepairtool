@@ -7,7 +7,6 @@ import { Footer } from "./Footer";
 
 type Settings = {
   webhook_configured: boolean;
-  report_hour: string;
   intro_message: string;
 };
 
@@ -48,8 +47,6 @@ export function SettingsPage() {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [webhookConfigured, setWebhookConfigured] = useState(false);
   const [webhookStatus, setWebhookStatus] = useState<Status>("idle");
-  const [reportHour, setReportHour] = useState("8");
-  const [reportStatus, setReportStatus] = useState<Status>("idle");
   const [introMessage, setIntroMessage] = useState("");
   const [introSaveStatus, setIntroSaveStatus] = useState<Status>("idle");
   const [introSendStatus, setIntroSendStatus] = useState<Status>("idle");
@@ -64,7 +61,6 @@ export function SettingsPage() {
       .then((r) => r.json())
       .then((data: Settings) => {
         setWebhookConfigured(data.webhook_configured ?? false);
-        setReportHour(data.report_hour ?? "8");
         setIntroMessage(data.intro_message ?? "");
       })
       .finally(() => setLoading(false));
@@ -185,29 +181,6 @@ export function SettingsPage() {
                     <SaveStatus status={introSaveStatus} />
                     {introSendStatus === "saved" && <span className="text-xs text-emerald-400 font-medium">Sent — go pin it</span>}
                     {introSendStatus === "error" && <span className="text-xs text-red-400 font-medium">Failed — check webhook URL</span>}
-                  </div>
-                </Row>
-              </Section>
-
-              {/* Report Schedule */}
-              <Section title="Report Schedule">
-                <Row label="Daily report time" description="The time the priority queue report is automatically sent to Google Chat each morning (Palm Desert local time).">
-                  <div className="flex items-center gap-3">
-                    <select
-                      value={reportHour}
-                      onChange={(e) => setReportHour(e.target.value)}
-                      className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-slate-500"
-                    >
-                      {Array.from({ length: 13 }, (_, i) => i + 6).map((h) => (
-                        <option key={h} value={String(h)}>
-                          {h === 12 ? "12:00 PM" : h < 12 ? `${h}:00 AM` : `${h - 12}:00 PM`}
-                        </option>
-                      ))}
-                    </select>
-                    <button onClick={() => save("report_hour", reportHour, setReportStatus)} disabled={reportStatus === "saving"} className={btnPrimary}>
-                      Save
-                    </button>
-                    <SaveStatus status={reportStatus} />
                   </div>
                 </Row>
               </Section>

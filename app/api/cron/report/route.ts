@@ -13,21 +13,12 @@ export async function GET(req: Request) {
   }
 
   const settings = await prisma.setting.findMany({
-    where: { key: { in: ["google_chat_webhook_url", "report_hour"] } },
+    where: { key: { in: ["google_chat_webhook_url"] } },
   });
   const db = Object.fromEntries(settings.map((s) => [s.key, s.value]));
 
   const webhookUrl = db.google_chat_webhook_url ?? process.env.GOOGLE_CHAT_WEBHOOK_URL?.trim();
   if (!webhookUrl) return NextResponse.json({ error: "No webhook configured" }, { status: 400 });
-
-  const reportHour = parseInt(db.report_hour ?? process.env.REPORT_HOUR ?? "8", 10);
-  const nowHour = new Date().getUTCHours();
-
-  // PST = UTC-8, PDT = UTC-7. Use UTC-7 (PDT) as default for Palm Desert
-  const localHour = (nowHour - 7 + 24) % 24;
-  if (localHour !== reportHour) {
-    return NextResponse.json({ skipped: true, localHour, reportHour });
-  }
 
   const boardId = process.env.TRELLO_BOARD_ID!.trim();
   const pinnedListId = process.env.TRELLO_LIST_ID?.trim();

@@ -20,7 +20,6 @@ export async function GET() {
 
   return NextResponse.json({
     webhook_configured: !!db.google_chat_webhook_url,
-    report_hour: db.report_hour ?? "8",
     intro_message: db.intro_message ?? DEFAULT_INTRO,
   });
 }
