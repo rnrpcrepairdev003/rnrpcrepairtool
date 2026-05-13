@@ -30,7 +30,7 @@ export function QueuePanel({ cards }: QueuePanelProps) {
   async function handleSendReport() {
     setSendState("sending");
     try {
-      const top20 = cards.slice(0, 15).map((c, i) => ({
+      const top20 = cards.map((c, i) => ({
         rank: i + 1,
         name: c.name,
         shortUrl: c.shortUrl,
@@ -55,7 +55,7 @@ export function QueuePanel({ cards }: QueuePanelProps) {
       {/* Panel header */}
       <div className="flex flex-col gap-2 px-4 py-3 border-b border-slate-800 shrink-0">
         <div className="flex items-center justify-between">
-          <span className="text-slate-300 text-xs font-semibold uppercase tracking-wider">Top 15 Urgent</span>
+          <span className="text-slate-300 text-xs font-semibold uppercase tracking-wider">Priority Queue</span>
           <span className="text-slate-600 text-xs font-mono">{reviewed}/{cards.length} reviewed</span>
         </div>
         <button
@@ -94,7 +94,7 @@ export function QueuePanel({ cards }: QueuePanelProps) {
 
       {/* List */}
       <div className="flex flex-col flex-1 overflow-hidden">
-        {cards.slice(0, 15).map((card, i) => {
+        {cards.map((card, i) => {
           const tier = card.tier;
           const isReviewed = card.override !== null;
           return (

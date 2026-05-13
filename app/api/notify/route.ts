@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 type ReportCard = {
   rank: number;
@@ -10,7 +11,8 @@ type ReportCard = {
 };
 
 export async function POST(req: NextRequest) {
-  const webhookUrl = process.env.GOOGLE_CHAT_WEBHOOK_URL?.trim();
+  const setting = await prisma.setting.findUnique({ where: { key: "google_chat_webhook_url" } });
+  const webhookUrl = setting?.value?.trim() || process.env.GOOGLE_CHAT_WEBHOOK_URL?.trim();
   if (!webhookUrl) {
     return NextResponse.json({ error: "GOOGLE_CHAT_WEBHOOK_URL not configured" }, { status: 500 });
   }
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
     `${"─".repeat(36)}\n\n` +
     lines.join("\n\n") +
     `\n\n${"─".repeat(36)}\n` +
-    `_Top 15 active jobs ranked by AI score_`;
+    `_Active jobs ranked by AI score_`;
 
   const res = await fetch(webhookUrl, {
     method: "POST",
