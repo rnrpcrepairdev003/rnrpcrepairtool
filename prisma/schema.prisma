@@ -25,6 +25,16 @@ model TrelloCardOverride {
   updatedAt    DateTime @updatedAt
 }
 
+model Lead {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  customerName String?
+  phone        String?
+  issue        String?
+  turns        String
+  status       String   @default("new")
+}
+
 model CallRecord {
   id            String   @id @default(cuid())
   threecxCallId String   @unique
