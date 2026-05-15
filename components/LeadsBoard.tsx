@@ -181,6 +181,32 @@ export function LeadsBoard() {
                               <p className="text-xs font-medium text-slate-300 capitalize">{turn.result.confidence}</p>
                             </div>
                           </div>
+                          {turn.result.possibleIssues && turn.result.possibleIssues.length > 0 && (
+                            <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-3">
+                              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Possible Issues</p>
+                              <ul className="space-y-1">
+                                {turn.result.possibleIssues.map((issue, j) => (
+                                  <li key={j} className="flex items-start gap-2 text-xs text-slate-400">
+                                    <span className="text-slate-600 mt-0.5">•</span>
+                                    {issue}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {turn.result.askCustomer && turn.result.askCustomer.length > 0 && (
+                            <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-3">
+                              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Follow Up Questions</p>
+                              <ul className="space-y-1">
+                                {turn.result.askCustomer.map((q, j) => (
+                                  <li key={j} className="flex items-start gap-2 text-xs text-slate-400">
+                                    <span className="text-slate-600 mt-0.5">•</span>
+                                    {q}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
