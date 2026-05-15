@@ -12,9 +12,10 @@ type TopbarProps = {
   hiddenCount: number;
   onHidden: () => void;
   label?: string;
+  leadStats?: { total: number; newCount: number; contacted: number; booked: number; closed: number };
 };
 
-export function Topbar({ total, high, medium, low, pending, reviewed, lastUpdated, hiddenCount, onHidden, label }: TopbarProps) {
+export function Topbar({ total, high, medium, low, pending, reviewed, lastUpdated, hiddenCount, onHidden, label, leadStats }: TopbarProps) {
   const { theme, toggle } = useTheme();
 
   async function handleLogout() {
@@ -33,7 +34,19 @@ export function Topbar({ total, high, medium, low, pending, reviewed, lastUpdate
 
       {/* Stats — centered */}
       <div className="flex-1 flex items-center justify-center gap-1 text-xs">
-        {label === "Settings" || label === "CSR Assistant" || label === "Leads" ? null : label ? (
+        {label === "Leads" && leadStats ? (
+          <>
+            <Stat label={`${leadStats.total} total`} color="text-slate-300" />
+            <Divider />
+            <Stat label={`${leadStats.newCount} new`} color="text-sky-400" dim={leadStats.newCount === 0} />
+            <Divider />
+            <Stat label={`${leadStats.contacted} contacted`} color="text-amber-400" dim={leadStats.contacted === 0} />
+            <Divider />
+            <Stat label={`${leadStats.booked} booked`} color="text-emerald-400" dim={leadStats.booked === 0} />
+            <Divider />
+            <Stat label={`${leadStats.closed} closed`} color="text-slate-500" dim={leadStats.closed === 0} />
+          </>
+        ) : label === "Settings" || label === "CSR Assistant" || label === "Leads" ? null : label ? (
           <>
             <Stat label={`${total} calls`} color="text-slate-300" />
             <Divider />

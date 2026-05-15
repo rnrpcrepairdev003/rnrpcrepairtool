@@ -45,6 +45,7 @@ export function CsrAssistant() {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [saveName, setSaveName] = useState("");
   const [savePhone, setSavePhone] = useState("");
+  const [saveDevice, setSaveDevice] = useState("");
   const [saving, setSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -100,7 +101,7 @@ export function CsrAssistant() {
     await fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ customerName: saveName, phone: savePhone, issue, turns }),
+      body: JSON.stringify({ customerName: saveName, phone: savePhone, device: saveDevice, issue, turns }),
     });
     setSaving(false);
     setSavedSuccess(true);
@@ -109,6 +110,7 @@ export function CsrAssistant() {
       setSavedSuccess(false);
       setSaveName("");
       setSavePhone("");
+      setSaveDevice("");
     }, 1500);
   }
 
@@ -194,6 +196,13 @@ export function CsrAssistant() {
                         placeholder="Phone number (optional)"
                         value={savePhone}
                         onChange={(e) => setSavePhone(e.target.value)}
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-slate-500"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Device brand / model (optional)"
+                        value={saveDevice}
+                        onChange={(e) => setSaveDevice(e.target.value)}
                         className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-slate-500"
                       />
                     </div>

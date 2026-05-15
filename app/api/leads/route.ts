@@ -9,7 +9,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { customerName, phone, issue, turns } = await req.json();
+  const { customerName, phone, device, issue, turns } = await req.json();
 
   if (!turns) {
     return NextResponse.json({ error: "No conversation data" }, { status: 400 });
@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
     data: {
       customerName: customerName?.trim() || null,
       phone: phone?.trim() || null,
+      device: device?.trim() || null,
       issue: issue?.trim() || null,
       turns: JSON.stringify(turns),
     },

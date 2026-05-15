@@ -142,3 +142,8 @@ export async function getCardAttachments(cardId: string): Promise<TrelloAttachme
   const all: TrelloAttachment[] = await res.json();
   return all.filter((a) => a.mimeType.startsWith("image/"));
 }
+
+export async function createCard(listId: string, name: string, desc: string): Promise<TrelloCard> {
+  const res = await trelloFetch(`/cards`, { method: "POST" }, { idList: listId, name, desc });
+  return res.json();
+}

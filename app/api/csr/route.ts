@@ -16,7 +16,10 @@ export async function POST(req: NextRequest) {
   const response = await client.messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 1024,
-    system: `You are an internal AI assistant for RNRPC Repair, a computer repair shop in Palm Desert, CA. You help our customer service representative Kate handle incoming customer calls.
+    system: [
+      {
+        type: "text",
+        text: `You are an internal AI assistant for RNRPC Repair, a computer repair shop in Palm Desert, CA. You help our customer service representative Kate handle incoming customer calls.
 
 KNOWLEDGE BASE:
 ${KNOWLEDGE_BASE}
@@ -163,6 +166,9 @@ FIELD RULES:
 "turnaround" — Internal reference only.
 
 - If you need more info, set confidence to "low" and populate askCustomer with clarifying questions.`,
+        cache_control: { type: "ephemeral" },
+      },
+    ],
     messages: [
       ...history,
       { role: "user", content: message },

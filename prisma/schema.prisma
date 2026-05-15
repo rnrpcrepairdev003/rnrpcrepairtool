@@ -30,6 +30,7 @@ model Lead {
   createdAt    DateTime @default(now())
   customerName String?
   phone        String?
+  device       String?
   issue        String?
   turns        String
   status       String   @default("new")
